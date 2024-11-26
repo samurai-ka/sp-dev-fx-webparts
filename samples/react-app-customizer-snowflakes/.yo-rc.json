@@ -1,0 +1,25 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "react-app-customizer-snowflakes",
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer",
+    "template": "none",
+    "componentName": "css-snowflakes",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.5",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.24.0"
+    },
+    "version": "1.20.0",
+    "libraryName": "react-app-customizer-snowflakes",
+    "libraryId": "7da9935b-8a17-4381-aa16-f33548881791",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionShortDescription": "Snowflakes description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false
+  }
+}

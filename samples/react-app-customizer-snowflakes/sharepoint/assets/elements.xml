@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <CustomAction
+        Title="CssSnowflakes"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ClientSideComponentId="c381a87b-e000-4f84-a711-6e98a83e5248"
+        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </CustomAction>
+</Elements>

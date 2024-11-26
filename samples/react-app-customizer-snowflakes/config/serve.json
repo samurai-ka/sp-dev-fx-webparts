@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/spfx-serve.schema.json",
+  "port": 4321,
+  "https": true,
+  "serveConfigurations": {
+    "default": {
+      "pageUrl": "https://greenbraineu.sharepoint.com/sites/spdevplay/SitePages/md-test.aspx",
+      "customActions": {
+        "c381a87b-e000-4f84-a711-6e98a83e5248": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "Bottom": "Let it snow from the lower container."
+          }
+        }
+      }
+    },
+    "cssSnowflakes": {
+      "pageUrl": "https://greenbraineu.sharepoint.com/sites/spdevplay/SitePages/md-test.aspx",
+      "customActions": {
+        "c381a87b-e000-4f84-a711-6e98a83e5248": {
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "Bottom": "Let it snow from the lower container."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "css-snowflakes-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/cssSnowflakes/CssSnowflakesApplicationCustomizer.js",
+          "manifest": "./src/extensions/cssSnowflakes/CssSnowflakesApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CssSnowflakesApplicationCustomizerStrings": "lib/extensions/cssSnowflakes/loc/{locale}.js"
+  }
+}
