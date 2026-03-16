@@ -53,6 +53,12 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install Docs deps (workspaces)
+        shell: bash
+        run: |
+          cd Docs
+          npm install --include=optional
+
       - name: Merge + slim samples files
         id: merge
         run: |
@@ -212,22 +218,45 @@ jobs:
           node-version: "20"
           install-deps: "true"
 
+      - name: Debug where did images get generated?
+        shell: bash
+        run: |
+          cd Docs
+
+          echo "Top image folders under static/images:"
+          find static/images -maxdepth 2 -type d 2>/dev/null | sed -n '1,120p' || true
+
+          echo "Avatar files in static/images/avatars:"
+          find static/images/avatars -type f 2>/dev/null | head -n 20 || true
+
+          echo "Thumbnail files in static/images/thumbnails:"
+          find static/images/thumbnails -type f 2>/dev/null | head -n 20 || true
+
+          echo "WARNING: if images exist under docs/images BEFORE hugo, they will be deleted:"
+          find docs/images -type f 2>/dev/null | head -n 20 || true
+
+      - name: Debug verify images are in static
+        shell: bash
+        run: |
+          cd Docs
+          echo "avatars:"; find static/images/avatars -type f 2>/dev/null | head -n 10 || true
+          echo "thumbs:"; find static/images/thumbnails -type f 2>/dev/null | head -n 10 || true
+
       - name: Tally discussion reactions
         id: reactions
         uses: ./.github/actions/tally-reactions
 
-      - name: Save likes.json into Docs/docs/data
+      - name: Save likes.json into Docs/data
         shell: bash
         run: |
-          mkdir -p Docs/docs/data
-          echo '${{ steps.reactions.outputs.result }}' > Docs/docs/data/likes.json
-
-          # Validate JSON (fail fast if the action output got truncated)
-          jq empty Docs/docs/data/likes.json
+          mkdir -p Docs/data
+          echo '${{ steps.reactions.outputs.result }}' > Docs/data/likes.json
+          jq empty Docs/data/likes.json
 
 
-      - name: Write published JSON files into Docs/docs/data
+      - name: Write published JSON files into Docs/data
         id: publish_json
+        shell: bash
         run: |
           node << 'EOF'
           const fs = require("fs");
@@ -236,8 +265,9 @@ jobs:
           const allSamplesPath = path.resolve(".metadata/all-samples.json");
           const samples = JSON.parse(fs.readFileSync(allSamplesPath, "utf8"));
 
-          // ----- Merge reactions from Docs/docs/data/likes.json into each sample -----
-          const likesPath = path.resolve("Docs/docs/data/likes.json");
+          // ----- Merge reactions from Docs/data/likes.json into each sample -----
+          const likesPath = path.resolve("Docs/data/likes.json");
+          const dataDir = path.resolve("Docs/data");
           let likes = null;
 
           if (fs.existsSync(likesPath)) {
@@ -266,7 +296,6 @@ jobs:
                 };
           }
 
-          const dataDir = path.resolve("Docs/docs/data");
           fs.mkdirSync(dataDir, { recursive: true });
 
           // all-samples.json
@@ -317,36 +346,161 @@ jobs:
             "utf8"
           );
           EOF
+          
+      # - name: Commit samples data + images
+      #   shell: bash
+      #   run: |
+      #     cd Docs
+      #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
 
-      - name: Check Docs working tree changes
-        id: check_changes
+      #     git add -A docs/images/thumbnails docs/images/avatars data
+
+      #     if git diff --cached --exit-code; then
+      #       echo "ℹ️ No changes to publish to Docs branch"
+      #       exit 0
+      #     fi
+
+      #     git commit -m "chore: publish samples data + images [skip ci]"
+      #     git push origin HEAD:Docs
+      #     echo "✅ Changes committed and pushed"
+
+      - name: Generate sample pages (Docs branch)
         shell: bash
         run: |
           cd Docs
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "changes=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "changes=false" >> "$GITHUB_OUTPUT"
-          fi
+          npm run generate:pages
 
+      - name: Install deps for pnp-samples-gallery (force optional deps)
+        shell: bash
+        run: |
+          cd Docs
+          rm -rf pnp-samples-gallery/node_modules
+          npm --prefix ./pnp-samples-gallery install --include=optional
 
-      - name: Commit + push to Docs branch only
+      - name: Build React gallery and copy assets
+        shell: bash
+        run: |
+          cd Docs
+          npm run build:react
+
+      - name: Set up Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: Build Hugo site + commit
         shell: bash
         run: |
           cd Docs
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          git add -A docs/images/thumbnails docs/images/avatars docs/data
+          echo "=== DEBUG: how many samples are tracked in the repo checkout? ==="
+          git ls-files "docs/samples/**" | wc -l || true
+
+          echo "=== DEBUG: does the tracked tree contain docs/samples? ==="
+          git ls-tree -d HEAD docs/samples || true
+
+          hugo --minify --destination docs --cleanDestinationDir
+
+          echo "Sitemap loc count:"; grep -c "<loc>" docs/sitemap.xml || true
+          echo "Sitemap samples entries:"; grep -c "/samples/" docs/sitemap.xml || true
+          echo "First 20 samples sitemap hits:"
+          python3 - << 'PY'
+          import re
+          p = "docs/sitemap.xml"
+          s = open(p, "r", encoding="utf-8").read()
+          hits = re.findall(r'https?://[^<"]*/samples/[^<"]*', s)
+          for i, h in enumerate(hits[:20], 1):
+              print(f"{i}: {h}")
+          PY
+
+          echo "Check one generated page front matter (first 60 lines):"
+          slug="$(find content/samples -mindepth 1 -maxdepth 1 -type d -printf '%f\n' -print -quit 2>/dev/null || true)"
+          echo "Chosen slug: ${slug:-<none>}"
+          if [[ -n "$slug" ]]; then
+            sed -n '1,80p' "content/samples/$slug/index.md" || true
+          fi
+
+          echo "=== DEBUG: find which sample did not render to docs/ ==="
+          # list slugs from generated content vs built output
+          ls -1 content/samples | sort > /tmp/content_slugs.txt
+          ls -1 docs/samples | sort > /tmp/docs_slugs.txt
+
+          echo "In content but missing from docs:"
+          comm -23 /tmp/content_slugs.txt /tmp/docs_slugs.txt | sed -n '1,50p'
+
+          missing_slug="$(comm -23 /tmp/content_slugs.txt /tmp/docs_slugs.txt | head -n 1 || true)"
+          echo "Missing slug: ${missing_slug:-<none>}"
+
+          if [[ -n "$missing_slug" ]]; then
+            echo "---- content front matter for missing slug ----"
+            sed -n '1,80p' "content/samples/$missing_slug/index.md" || true
+
+            echo "---- re-run hugo with verbose logging for this page ----"
+            # rerun once with extra diagnostics (won't change output, but logs warnings)
+            hugo --minify --destination docs --cleanDestinationDir --printPathWarnings --logLevel info || true
+          fi
+
+          echo "=== DEBUG: how many sample HTML files exist after build? ==="
+          find docs/samples -type f -name "index.html" | wc -l || true
+
+          echo "=== DEBUG: did any samples files actually change content? ==="
+          git diff --name-only -- docs/samples | head -n 50 || true
+
+          echo "docs/samples count:"
+          find docs/samples -maxdepth 2 -type f | wc -l || true
+
+          echo "=== DEBUG: find any sample folder missing index.html ==="
+          missing_dir="$(find docs/samples -mindepth 1 -maxdepth 1 -type d ! -exec test -f '{}/index.html' \; -print -quit 2>/dev/null || true)"
+          echo "Missing HTML dir: ${missing_dir:-<none>}"
+          if [[ -n "$missing_dir" ]]; then
+            echo "Contents:"
+            ls -la "$missing_dir" || true
+          fi
+
+
+          echo "=== DEBUG: write build marker into docs/ ==="
+          echo "sha=$GITHUB_SHA" > docs/build-info.txt
+          echo "builtAt=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> docs/build-info.txt
+          echo "samplesFolders=$(find docs/samples -mindepth 1 -maxdepth 1 -type d | wc -l)" >> docs/build-info.txt
+          echo "sitemapLocs=$(grep -c '<loc>' docs/sitemap.xml || true)" >> docs/build-info.txt
+          echo "sitemapSamples=$(grep -c '/samples/' docs/sitemap.xml || true)" >> docs/build-info.txt
+
+          cat docs/build-info.txt
+
+          git add -A data static content docs
+
+          echo ""
+          echo "=== DEBUG: does git think docs/samples is ignored? ==="
+          # pick any file that should exist
+          sample_file="$(find docs/samples -type f -print -quit 2>/dev/null || true)"
+          echo "Sample output file: ${sample_file:-<none found>}"
+          if [[ -n "$sample_file" ]]; then
+            git check-ignore -v "$sample_file" || echo "Not ignored ✅"
+          fi
+
+          echo ""
+          echo "=== DEBUG: git status (porcelain) ==="
+          git status --porcelain | sed -n '1,200p'
+
+          echo ""
+          echo "=== DEBUG: staged files (name-only) ==="
+          git diff --cached --name-only | sed -n '1,200p'
+
+          echo ""
+          echo "=== DEBUG: staged docs/samples files count ==="
+          git diff --cached --name-only | grep '^docs/samples/' | wc -l || true
 
           if git diff --cached --exit-code; then
-            echo "ℹ️ No changes to publish to Docs branch"
+            echo "ℹ️ No changes to publish"
             exit 0
           fi
 
-          git commit -m "chore: publish samples data + images [skip ci]"
+          git commit -m "chore: regenerate data/assets/site [skip ci]"
           git push origin HEAD:Docs
-          echo "✅ Changes committed and pushed"
 
       - name: Generate workflow summary
         if: always()
@@ -390,8 +544,4 @@ jobs:
             echo "| **Matched discussions** | ${{ steps.reactions.outputs.matched_discussions }} |"
             echo "| **Total reactions** | ${{ steps.reactions.outputs.total_reactions }} |"
             echo
-            echo "## 📝 Git Changes"
-            echo "| Status | Result |"
-            echo "|--------|--------|"
-            echo "| **Changes Detected** | ${{ steps.check_changes.outputs.changes == 'true' && '✅ Yes' || 'ℹ️ No' }} |"
           } >> "$GITHUB_STEP_SUMMARY"
