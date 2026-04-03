@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "react-notice-and-warning",
+    "useGulp": false,
+    "componentType": "webpart",
+    "template": "react",
+    "componentName": "notice-and-warning",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.22.1",
+    "sdksVersions": {},
+    "version": "1.22.2",
+    "libraryName": "react-notice-and-warning",
+    "libraryId": "810ae2ba-bca3-4326-a5a6-fad74a8f4471",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionShortDescription": "react-notice-and-warning description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false
+  }
+}

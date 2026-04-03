@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "notice-and-warning-client-side-solution",
+    "id": "810ae2ba-bca3-4326-a5a6-fad74a8f4471",
+    "version": "0.0.0.2",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Hagen Deike",
+      "websiteUrl": "https://www.greenbrain.de",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.22.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "react-notice-and-warning description"
+      },
+      "longDescription": {
+        "default": "react-notice-and-warning description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "notice-and-warning Feature",
+        "description": "The feature that activates elements of the notice-and-warning solution.",
+        "id": "53318162-5285-46fb-8e1e-813c91066adf",
+        "version": "0.0.0.2"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/notice-and-warning.sppkg"
+  }
+}

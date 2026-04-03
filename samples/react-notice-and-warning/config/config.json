@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "notice-and-warning-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/noticeAndWarning/NoticeAndWarningWebPart.js",
+          "manifest": "./src/webparts/noticeAndWarning/NoticeAndWarningWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "NoticeAndWarningWebPartStrings": "lib/webparts/noticeAndWarning/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}
