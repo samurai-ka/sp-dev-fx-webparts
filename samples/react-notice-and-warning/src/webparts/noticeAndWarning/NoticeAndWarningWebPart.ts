@@ -20,7 +20,9 @@ import { INoticeAndWarningProps } from './components/INoticeAndWarningProps';
 // Properties exports
 export interface INoticeAndWarningWebPartProps {
   description: string;
-  iconPicker: any;
+  notificationIcon: string;
+  notificationText: string;
+  notificationTitle: string;
 }
 export interface IPropertyControlsTestWebPartProps {
   toggleInfoHeaderValue: boolean;
@@ -36,7 +38,8 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
       NoticeAndWarning,
       {
         description: this.properties.description,
-        iconPicker: this.properties.iconPicker,
+        notificationIcon: this.properties.notificationIcon,
+        notificationText: this.properties.notificationText,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
@@ -122,27 +125,33 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
                 }),
-                PropertyPaneDropdown('iconPicker', {
+                PropertyPaneDropdown('notificationIcon', {
                   label: "Type",
                   options: [
-                    { key: 'Info', text: 'Info' },
+                    { key: 'Info', text: 'Informantion' },
                     { key: 'Warning', text: 'Warning' },
                     { key: 'ErrorBadge', text: 'Error' },
                     { key: 'Accept', text: 'Success'},
                     { key: 'ShieldAlert', text: 'Alert'},
                     { key: 'BlockedSite', text: 'Critical'},
                   ]
-                }),
-                PropertyFieldIconPicker('iconPicker', {
-                  currentIcon: this.properties.iconPicker,
-                  key: "iconPickerId",
-                  onSave: (icon: string) => { console.log(icon); this.properties.iconPicker = icon; },
+                })
+
+              ]
+            },
+            {
+              groupName: "Other group",
+              groupFields: [
+                PropertyFieldIconPicker('notificationIcon', {
+                  currentIcon: this.properties.notificationIcon,
+                  key: "notificationIconId",
+                  onSave: (icon: string) => { console.log(icon); this.properties.notificationIcon = icon; },
                   onChanged:(icon: string) => { console.log(icon);  },
                   buttonLabel: "Sign",
                   renderOption: "dialog", // dialog or panel
                   properties: this.properties,
                   onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
-                  label: "Sign selection",              
+                  label: "Sign selection"
                 }),
                 PropertyPaneWebPartInformation({
                   description: `<h1>Info Header</h1>This is a <strong>demo webpart</strong>, used to demonstrate all the <a href="https://aka.ms/sppnp">PnP</a> property controls`,

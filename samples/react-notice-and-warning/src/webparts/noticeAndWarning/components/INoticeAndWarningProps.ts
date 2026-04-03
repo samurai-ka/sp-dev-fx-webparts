@@ -1,6 +1,7 @@
 export interface INoticeAndWarningProps {
   description: string;
-  iconPicker: string;
+  notificationText: string;
+  notificationIcon: string;
   isDarkTheme: boolean;
   environmentMessage: string;
   hasTeamsContext: boolean;
