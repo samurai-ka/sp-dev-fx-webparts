@@ -26,15 +26,14 @@ that users coming from Confluence are familiar with and highlight text parts tha
 
 ## Solution
 
-| Solution                | Author(s)                                               |
-| ----------------------- | ------------------------------------------------------- |
-| react-notice-andwarning | Author details (name, company, twitter alias with link) |
+| Solution                 | Author(s)                                               |
+| ------------------------ | ------------------------------------------------------- |
+| react-notice-and-warning | Author details (name, company, twitter alias with link) |
 
 ## Version history
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | April 03, 2026   | Update comment  |
 | 1.0     | April 03, 2026   | Initial release |
 
 ## Disclaimer

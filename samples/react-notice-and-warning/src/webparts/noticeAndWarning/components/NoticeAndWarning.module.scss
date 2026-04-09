@@ -10,6 +10,18 @@
   }
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.icon {
+  font-size: 2em;
+  color: "[theme:themePrimary, default: #0078d4]";
+  color: var(--themePrimary);
+}
+
 .welcome {
   text-align: center;
 }
@@ -31,9 +43,4 @@
       color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
     }
   }
-}
-
-.icon {
-  font-size: 48px;
-  margin-top: 10px;
 }

@@ -24,17 +24,11 @@ import { INoticeAndWarningProps } from './components/INoticeAndWarningProps';
 // Properties exports
 //
 export interface INoticeAndWarningWebPartProps {
-  description: string;
+  // description: string;
   notificationIcon: string;
   notificationText: string;
-  // _notificationTitle: string;
-
-  displayMode: DisplayMode;
-  updateProperty: (value: string) => void;
+  notificationTitle: string;
 }
-// export interface IPropertyControlsTestWebPartProps {
-//   toggleInfoHeaderValue: boolean;
-// }
 
 export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoticeAndWarningWebPartProps> {
   
@@ -52,17 +46,16 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
     const element: React.ReactElement<INoticeAndWarningProps> = React.createElement(
       NoticeAndWarning,
       {
-        description: this.properties.description,
+        // desciption: this.properties.description,
         notificationIcon: this.properties.notificationIcon,
+        notificationTitle: this.properties.notificationTitle || this._notificationTitle,
         notificationText: this.properties.notificationText,
-        notificationTitle: this._notificationTitle,
         isDarkTheme: this._isDarkTheme,
-        environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName,
 
-        displayMode: this.properties.displayMode,
-        updateProperty: this.properties.updateProperty
+        displayMode: this.displayMode,
+        updateProperty: (value: string) => { this.properties.notificationTitle = value; this.render(); },
+        updateText: (value: string) => { this.properties.notificationText = value; this.render(); }
       }
     );
 
@@ -150,9 +143,6 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                }),
                 PropertyPaneDropdown('notificationIcon', {
                   label: "Type",
                   options: [
@@ -182,12 +172,8 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                   label: "Sign selection"
                 }),
                 PropertyPaneWebPartInformation({
-                  description: `<h1>Info Header</h1>This is a <strong>demo webpart</strong>, used to demonstrate all the <a href="https://aka.ms/sppnp">PnP</a> property controls`,
+                  description: `<h3>Notification and Warning</h3>This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
                   moreInfoLink: `https://pnp.github.io/sp-dev-fx-property-controls/`,
-                  videoProperties: {
-                    embedLink: `https://www.youtube.com/embed/d_9o3tQ90zo`,
-                    properties: { allowFullScreen: false}
-                  },
                   key: 'webPartInfoId'
                 })
 

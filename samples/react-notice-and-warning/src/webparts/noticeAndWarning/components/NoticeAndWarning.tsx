@@ -15,39 +15,34 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
 
   public render(): React.ReactElement<INoticeAndWarningProps> {
     const {
-      description,
       isDarkTheme,
-      environmentMessage,
       hasTeamsContext,
-      userDisplayName
     } = this.props;
     const NotificationIcon = () => <Icon iconName={this.props.notificationIcon} className={styles.icon} aria-label='Icon' />;
 
     return (
       <><section className={`${styles.noticeAndWarning} ${hasTeamsContext ? styles.teams : ''}`}>
-        <WebPartTitle
-              displayMode={DisplayMode.Edit}
-              // displayMode={this.props.displayMode}
-              title={this.props.notificationTitle}
-              updateProperty={this.props.updateProperty} />
-        <div className={styles.welcome}>
-          <h2>Well done, {escape(userDisplayName)}!</h2>
-          <div>{environmentMessage}</div>
-          <div>Web part property value: <strong>{escape(description)}</strong></div>
-          <div>Icon: <strong>{escape(this.props.notificationIcon)}</strong></div>
+        <div className={styles.header}>
           <NotificationIcon />
+          <WebPartTitle
+                // displayMode={DisplayMode.Edit}
+                displayMode={this.props.displayMode}
+                title={this.props.notificationTitle}
+                updateProperty={this.props.updateProperty} />
         </div>
         <div>
-          <RichText value={this.props.notificationText}
-                    label='Notification text area'
-                    onChange={(text)=>this.onTextChange(text)}
+          <RichText
+            value={this.props.notificationText}
+            label='Notification text area'
+            isEditMode={this.props.displayMode === DisplayMode.Edit}
+            onChange={(text) => {
+              if (this.props.updateText) { this.props.updateText(text); }
+              return text;
+            }}
           />
         </div>
-        <div>
-          <h3>Welcome to SharePoint Framework!</h3>
-          <p>
-            The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It&#39;s the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-          </p>
+        <div className={styles.welcome}>
+          <div>Icon: <strong>{escape(this.props.notificationIcon)}</strong></div>
         </div>
       </section>
       </>
