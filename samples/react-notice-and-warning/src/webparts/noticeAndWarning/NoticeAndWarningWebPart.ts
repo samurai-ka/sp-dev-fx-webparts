@@ -6,7 +6,8 @@ import { Version,
 import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import {
   PropertyPaneWebPartInformation
@@ -27,6 +28,9 @@ export interface INoticeAndWarningWebPartProps {
   // description: string;
   notificationIcon: string;
   notificationText: string;
+  notificationType?: string;
+  isShadow?: boolean;
+  notificationIconOverride?: boolean;
   notificationTitle: string;
 }
 
@@ -43,11 +47,15 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
   // RENDER METHOD
   //
   public render(): void {
+    // derive icon: if a custom icon was picked, respect the override; otherwise use the dropdown type
+    const iconForType = this.properties.notificationIconOverride ? (this.properties.notificationIcon || 'Info') : (this.properties.notificationType || this.properties.notificationIcon || 'Info');
     const element: React.ReactElement<INoticeAndWarningProps> = React.createElement(
       NoticeAndWarning,
       {
         // desciption: this.properties.description,
-        notificationIcon: this.properties.notificationIcon,
+        notificationIcon: iconForType,
+        notificationType: this.properties.notificationType || 'Info',
+        isShadow: !!this.properties.isShadow,
         notificationTitle: this.properties.notificationTitle || this._notificationTitle,
         notificationText: this.properties.notificationText,
         isDarkTheme: this._isDarkTheme,
@@ -125,6 +133,14 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
+  protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
+    // If the dropdown (notificationType) changed, clear any custom icon override so dropdown controls the icon again
+    if (propertyPath === 'notificationType' && this.properties.notificationIconOverride) {
+      this.properties.notificationIconOverride = false;
+    }
+    super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
+  }
+
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
@@ -143,7 +159,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneDropdown('notificationIcon', {
+                PropertyPaneDropdown('notificationType', {
                   label: "Type",
                   options: [
                     { key: 'Info', text: strings.NotificationFieldLabelInformation },
@@ -163,13 +179,18 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                 PropertyFieldIconPicker('notificationIcon', {
                   currentIcon: this.properties.notificationIcon,
                   key: "notificationIconId",
-                  onSave: (icon: string) => { console.log(icon); this.properties.notificationIcon = icon; },
+                  onSave: (icon: string) => { console.log(icon); this.properties.notificationIcon = icon; this.properties.notificationIconOverride = true; this.render(); },
                   onChanged:(icon: string) => { console.log(icon);  },
                   buttonLabel: "Sign",
                   renderOption: "dialog", // dialog or panel
                   properties: this.properties,
                   onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
                   label: "Sign selection"
+                }),
+                PropertyPaneToggle('isShadow', {
+                  label: "Show shadow",
+                  onText: "Yes",
+                  offText: "No"
                 }),
                 PropertyPaneWebPartInformation({
                   description: `<h3>Notification and Warning</h3>This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
