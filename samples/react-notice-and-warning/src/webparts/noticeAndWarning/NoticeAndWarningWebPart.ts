@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import { Version,
+          DisplayMode
+} from '@microsoft/sp-core-library';
 import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
@@ -17,22 +19,35 @@ import * as strings from 'NoticeAndWarningWebPartStrings';
 import NoticeAndWarning from './components/NoticeAndWarning';
 import { INoticeAndWarningProps } from './components/INoticeAndWarningProps';
 
+
+//
 // Properties exports
+//
 export interface INoticeAndWarningWebPartProps {
   description: string;
   notificationIcon: string;
   notificationText: string;
-  notificationTitle: string;
+  // _notificationTitle: string;
+
+  displayMode: DisplayMode;
+  updateProperty: (value: string) => void;
 }
-export interface IPropertyControlsTestWebPartProps {
-  toggleInfoHeaderValue: boolean;
-}
+// export interface IPropertyControlsTestWebPartProps {
+//   toggleInfoHeaderValue: boolean;
+// }
 
 export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoticeAndWarningWebPartProps> {
-
+  
+  //
+  // Local private variables
+  //
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = '';
+  private _notificationTitle: string = "Notification Title";  
 
+  //
+  // RENDER METHOD
+  //
   public render(): void {
     const element: React.ReactElement<INoticeAndWarningProps> = React.createElement(
       NoticeAndWarning,
@@ -40,16 +55,23 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
         description: this.properties.description,
         notificationIcon: this.properties.notificationIcon,
         notificationText: this.properties.notificationText,
+        notificationTitle: this._notificationTitle,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+
+        displayMode: this.properties.displayMode,
+        updateProperty: this.properties.updateProperty
       }
     );
 
     ReactDom.render(element, this.domElement);
   }
 
+  //
+  // LIFECYCLE METHODS
+  //
   protected onInit(): Promise<void> {
     return this._getEnvironmentMessage().then(message => {
       this._environmentMessage = message;
@@ -85,6 +107,9 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
     return Promise.resolve(this.context.isServedFromLocalhost ? strings.AppLocalEnvironmentSharePoint : strings.AppSharePointEnvironment);
   }
 
+  //
+  // THEME HANDLER
+  //
   protected onThemeChanged(currentTheme: IReadonlyTheme | undefined): void {
     if (!currentTheme) {
       return;
@@ -102,7 +127,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
     }
 
   }
-
+  
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
   }
@@ -111,6 +136,9 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
     return Version.parse('1.0');
   }
 
+  //
+  // PROPERTY PANE CONFIGURATION
+  //
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
       pages: [

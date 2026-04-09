@@ -4,11 +4,14 @@ import type { INoticeAndWarningProps } from './INoticeAndWarningProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
 import { RichText } from "@pnp/spfx-controls-react/lib/RichText";
+import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 import { Icon } from '@fluentui/react';
+import { DisplayMode } from '@microsoft/sp-core-library';
 
 initializeIcons();
 
 export default class NoticeAndWarning extends React.Component<INoticeAndWarningProps> {
+  onTextChange: any;
 
   public render(): React.ReactElement<INoticeAndWarningProps> {
     const {
@@ -22,6 +25,11 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
 
     return (
       <><section className={`${styles.noticeAndWarning} ${hasTeamsContext ? styles.teams : ''}`}>
+        <WebPartTitle
+              displayMode={DisplayMode.Edit}
+              // displayMode={this.props.displayMode}
+              title={this.props.notificationTitle}
+              updateProperty={this.props.updateProperty} />
         <div className={styles.welcome}>
           <h2>Well done, {escape(userDisplayName)}!</h2>
           <div>{environmentMessage}</div>
