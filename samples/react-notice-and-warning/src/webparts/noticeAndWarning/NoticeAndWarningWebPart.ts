@@ -25,7 +25,6 @@ import { INoticeAndWarningProps } from './components/INoticeAndWarningProps';
 // Properties exports
 //
 export interface INoticeAndWarningWebPartProps {
-  // description: string;
   notificationIcon: string;
   notificationText: string;
   notificationType?: string;
@@ -174,7 +173,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
               ]
             },
             {
-              groupName: "Other group",
+              groupName: "Designs",
               groupFields: [
                 PropertyFieldIconPicker('notificationIcon', {
                   currentIcon: this.properties.notificationIcon,
@@ -188,9 +187,9 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                   label: "Sign selection"
                 }),
                 PropertyPaneToggle('isShadow', {
-                  label: "Show shadow",
-                  onText: "Yes",
-                  offText: "No"
+                  label: "Shadow",
+                  onText: "Show",
+                  offText: "Hidden"
                 }),
                 PropertyPaneWebPartInformation({
                   description: `<h3>Notification and Warning</h3>This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
