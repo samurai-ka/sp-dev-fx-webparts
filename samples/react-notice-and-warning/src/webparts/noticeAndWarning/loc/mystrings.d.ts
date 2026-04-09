@@ -11,6 +11,12 @@ declare interface INoticeAndWarningWebPartStrings {
   AppOfficeEnvironment: string;
   AppOutlookEnvironment: string;
   UnknownEnvironment: string;
+  NotificationFieldLabelInformation: string;
+  NotificationFieldLabelWarning: string;
+  NotificationFieldLabelError: string;
+  NotificationFieldLabelSuccess: string;
+  NotificationFieldLabelAlert: string;
+  NotificationFieldLabelCritical: string;
 }
 
 declare module 'NoticeAndWarningWebPartStrings' {

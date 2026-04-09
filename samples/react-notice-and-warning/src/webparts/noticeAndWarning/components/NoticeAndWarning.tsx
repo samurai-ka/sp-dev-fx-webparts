@@ -33,16 +33,12 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
         <div>
           <RichText
             value={this.props.notificationText}
-            label='Notification text area'
             isEditMode={this.props.displayMode === DisplayMode.Edit}
             onChange={(text) => {
               if (this.props.updateText) { this.props.updateText(text); }
               return text;
             }}
           />
-        </div>
-        <div className={styles.welcome}>
-          <div>Icon: <strong>{escape(this.props.notificationIcon)}</strong></div>
         </div>
       </section>
       </>

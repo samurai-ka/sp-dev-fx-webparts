@@ -146,12 +146,12 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                 PropertyPaneDropdown('notificationIcon', {
                   label: "Type",
                   options: [
-                    { key: 'Info', text: 'Informantion' },
-                    { key: 'Warning', text: 'Warning' },
-                    { key: 'ErrorBadge', text: 'Error' },
-                    { key: 'Accept', text: 'Success'},
-                    { key: 'ShieldAlert', text: 'Alert'},
-                    { key: 'BlockedSite', text: 'Critical'},
+                    { key: 'Info', text: strings.NotificationFieldLabelInformation },
+                    { key: 'Warning', text: strings.NotificationFieldLabelWarning },
+                    { key: 'ErrorBadge', text: strings.NotificationFieldLabelError },
+                    { key: 'Accept', text: strings.NotificationFieldLabelSuccess },
+                    { key: 'ShieldAlert', text: strings.NotificationFieldLabelAlert },
+                    { key: 'BlockedSite', text: strings.NotificationFieldLabelCritical },
                   ]
                 })
 
