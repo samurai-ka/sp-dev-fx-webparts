@@ -8,45 +8,39 @@
   }
 
   &.info {
-    color: "[theme:bodyText, default: #323130]";
-    color: var(--bodyText);
-    background-color: "[theme:themeLighter, default: #f3f2f1]";
-    background-color: var(--themeLighter);
+    color: "[theme:neutralPrimary, default:#0078d7]";
+    background-color: "[theme:themeLighter, default:#deecf9]";
+    border: 1px solid "[theme:neutralPrimary, default:#0078d7]";
   }
 
   &.warning {
-    color: "[theme:bodyText, default: #d29200]";
-    color: var(--themePrimary);
-    background-color: "[theme:themeLighter, default: #fff4ce]";
-    background-color: var(--themeLighter);
+    color: #797673;
+    background-color: #fff4ce;
+    border: 1px solid #797673;
   }
 
   &.errorBadge {
-    color: "[theme:bodyText, default: #a80000]";
-    color: var(--themeDark);
-    background-color: "[theme:themeLighter, default: #fde7e9]";
-    background-color: var(--themeLighter);
+    color: "[theme:neutralPrimary, default:#0078d7]";
+    background-color: #fed9cc;
+    border: 1px solid #d83b01;
   }
 
   &.Accepted {
-    color: "[theme:bodyText, default: #107c10]";
-    color: var(--themeDark);
-    background-color: "[theme:themeLighter, default: #e6f4ea]";
-    background-color: var(--themeLighter);
+    color: #107c10;
+    background-color: #dff6dd;
+    border: 1px solid #107c10;
   }
 
   &.ShieldAlert {
-    color: "[theme:bodyText, default: #005A9E]";
-    color: var(--themeDark);
-    background-color: "[theme:themeLighter, default: #deecf9]";
-    background-color: var(--themeLighter);
+    color: #a80000;
+    background-color: #fde7e9;
+    border: 1px solid #a80000;
   }
 
   &.BlockedSite {
-    color: "[theme:bodyText, default: #fff2b8]";
-    color: var(--themeLighter);
-    background-color: "[theme:themeLighter, default: #a80000]";
-    background-color: var(--themeDark);
+    color: #fff4ce;
+    background-color: #a80000;
+    border: 1px solid #fff4ce;
   }
 }
 

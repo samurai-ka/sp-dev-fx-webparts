@@ -16,33 +16,29 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
   public render(): React.ReactElement<INoticeAndWarningProps> {
     const { isDarkTheme, hasTeamsContext, isShadow } = this.props;
 
-    // map notification types to colors
-    const colorMap: Record<string, { bg: string; text: string }> = {
-      Info: { bg: '#deecf9', text: '#005A9E' },
-      Warning: { bg: '#fff4ce', text: '#d29200' },
-      ErrorBadge: { bg: '#fde7e9', text: '#a80000' },
-      Accept: { bg: '#e6f4ea', text: '#107c10' },
-      ShieldAlert: { bg: '#e7f3ff', text: '#004c9a' },
-      BlockedSite: { bg: '#a80000', text: '#fff2b8' }
+    // map notification types to CSS class names (defined in the module stylesheet)
+    const typeToClass: Record<string, string> = {
+      Info: 'info',
+      Warning: 'warning',
+      ErrorBadge: 'errorBadge',
+      Accept: 'Accepted',
+      ShieldAlert: 'ShieldAlert',
+      BlockedSite: 'BlockedSite'
     };
 
     const notifKey = this.props.notificationType || this.props.notificationIcon || '';
-    const notif = (notifKey && colorMap[notifKey]) ? colorMap[notifKey] : { bg: 'transparent', text: 'var(--bodyText)' };
-    const rootStyle: React.CSSProperties = {
-      backgroundColor: notif.bg,
-      color: notif.text,
-      border: `1px solid ${notif.text}`
-    } as React.CSSProperties;
-    const iconStyle: React.CSSProperties = { color: notif.text } as React.CSSProperties;
+    const cssType = (notifKey && typeToClass[notifKey]) ? typeToClass[notifKey] : '';
 
+    // Only keep shadow as an inline style; colors and backgrounds are handled by CSS classes
+    const sectionStyle: React.CSSProperties = {} as React.CSSProperties;
     if (isShadow) {
-      (rootStyle as any).boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+      (sectionStyle as any).boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
     }
 
     return (
-      <section className={`${styles.noticeAndWarning} ${hasTeamsContext ? styles.teams : ''}`} style={rootStyle}>
+      <section className={`${styles.noticeAndWarning} ${cssType && (styles as any)[cssType] ? (styles as any)[cssType] : ''} ${hasTeamsContext ? styles.teams : ''}`} style={sectionStyle}>
         <span className={styles.header}>
-          <Icon iconName={this.props.notificationIcon} className={styles.icon} aria-label='Icon' style={iconStyle} />
+          <Icon iconName={this.props.notificationIcon} className={styles.icon} aria-label='Icon' />
           <WebPartTitle
             displayMode={this.props.displayMode}
             title={this.props.notificationTitle}
