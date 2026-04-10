@@ -28,7 +28,7 @@ that users coming from Confluence are familiar with and highlight text parts tha
 
 | Solution                 | Author(s)                                               |
 | ------------------------ | ------------------------------------------------------- |
-| react-notice-and-warning | Author details (name, company, twitter alias with link) |
+| react-notice-and-warning | Hagen Deike  |
 
 ## Version history
 
@@ -46,10 +46,17 @@ that users coming from Confluence are familiar with and highlight text parts tha
 
 - Clone this repository
 - Ensure that you are at the solution folder
-- in the command-line run:
+- Ensure that you are using the correct npm version
+  - `nvm use`
+- Ensure that you have `heft` installed with that npm version
   - `npm install -g @rushstack/heft`
+- Install all project dependencies
   - `npm install`
+- For development use
   - `heft start`
+- To build the solution
+  - `heft build`
+  - `heft package-solution`
 
 > Include any additional steps as needed.
 

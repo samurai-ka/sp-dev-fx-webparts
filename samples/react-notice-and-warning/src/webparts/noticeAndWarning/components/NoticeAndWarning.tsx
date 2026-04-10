@@ -41,15 +41,15 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
 
     return (
       <section className={`${styles.noticeAndWarning} ${hasTeamsContext ? styles.teams : ''}`} style={rootStyle}>
-        <div className={styles.header}>
+        <span className={styles.header}>
           <Icon iconName={this.props.notificationIcon} className={styles.icon} aria-label='Icon' style={iconStyle} />
           <WebPartTitle
             displayMode={this.props.displayMode}
             title={this.props.notificationTitle}
             updateProperty={this.props.updateProperty}
           />
-        </div>
-        <div>
+        </span>
+        
           <RichText
             value={this.props.notificationText}
             isEditMode={this.props.displayMode === DisplayMode.Edit}
@@ -58,7 +58,7 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
               return text;
             }}
           />
-        </div>
+        
       </section>
     );
   }

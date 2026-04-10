@@ -160,6 +160,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
               groupFields: [
                 PropertyPaneDropdown('notificationType', {
                   label: "Type",
+                  selectedKey: 'Info',
                   options: [
                     { key: 'Info', text: strings.NotificationFieldLabelInformation },
                     { key: 'Warning', text: strings.NotificationFieldLabelWarning },
@@ -192,7 +193,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                   offText: "Hidden"
                 }),
                 PropertyPaneWebPartInformation({
-                  description: `<h3>Notification and Warning</h3>This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
+                  description: `This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
                   moreInfoLink: `https://pnp.github.io/sp-dev-fx-property-controls/`,
                   key: 'webPartInfoId'
                 })

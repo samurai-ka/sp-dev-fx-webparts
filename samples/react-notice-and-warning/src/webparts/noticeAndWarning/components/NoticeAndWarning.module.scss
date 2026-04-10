@@ -3,31 +3,61 @@
 .noticeAndWarning {
   overflow: hidden;
   padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
   &.teams {
     font-family: $ms-font-family-fallbacks;
+  }
+
+  &.info {
+    color: "[theme:bodyText, default: #323130]";
+    color: var(--bodyText);
+    background-color: "[theme:themeLighter, default: #f3f2f1]";
+    background-color: var(--themeLighter);
+  }
+
+  &.warning {
+    color: "[theme:bodyText, default: #d29200]";
+    color: var(--themePrimary);
+    background-color: "[theme:themeLighter, default: #fff4ce]";
+    background-color: var(--themeLighter);
+  }
+
+  &.errorBadge {
+    color: "[theme:bodyText, default: #a80000]";
+    color: var(--themeDark);
+    background-color: "[theme:themeLighter, default: #fde7e9]";
+    background-color: var(--themeLighter);
+  }
+
+  &.Accepted {
+    color: "[theme:bodyText, default: #107c10]";
+    color: var(--themeDark);
+    background-color: "[theme:themeLighter, default: #e6f4ea]";
+    background-color: var(--themeLighter);
+  }
+
+  &.ShieldAlert {
+    color: "[theme:bodyText, default: #005A9E]";
+    color: var(--themeDark);
+    background-color: "[theme:themeLighter, default: #deecf9]";
+    background-color: var(--themeLighter);
+  }
+
+  &.BlockedSite {
+    color: "[theme:bodyText, default: #fff2b8]";
+    color: var(--themeLighter);
+    background-color: "[theme:themeLighter, default: #a80000]";
+    background-color: var(--themeDark);
   }
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 1em;
+  padding: 12px 15px 0 15px;
 }
 
 .icon {
-  font-size: 2em;
-  color: "[theme:themePrimary, default: #0078d4]";
-  color: var(--themePrimary);
+  font-size: 20px;
+  margin-bottom: 11px;
+  padding-right: 14px;
 }
-
-.welcome {
-  text-align: center;
-}
-
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
-}
-
