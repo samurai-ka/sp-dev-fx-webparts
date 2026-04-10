@@ -2,12 +2,22 @@
 
 ## Summary
 
-The Notice and Warning Webpart PnP sample.
+### The Notice and Warning Webpart PnP sample.
 
-This Webpart isolates an area on your Sharepoint page for special notifications, informations, warnings and highlighting text in general. The idea is to have a Webpart
-that users coming from Confluence are familiar with and highlight text parts that need special attention by the user reading the page.
+The Notice and Warning WebPart is designed to clearly and consistently communicate important messages directly within SharePoint pages. It enables authors and editors to present information notices, warnings, errors, hints, and contextual messages in a structured and visually recognizable way, ensuring that critical content is not overlooked by page visitors.
 
-[picture of the solution in action, if possible]
+The webpart supports multiple message types, each rendered with a dedicated visual style and color scheme. This color‑based differentiation allows users to instantly recognize the nature and urgency of a message—whether it is purely informational, requires attention, highlights a potential risk, or indicates an error that must be resolved. By using intuitive visual cues, the web part improves readability and enhances user awareness without disrupting the overall page layout.
+
+
+![All defined variantion](./assets/ScreenShot1.png)
+
+The webpart can optionally render its content with rounded corners and subtle shadow effects, providing a modern and visually distinct appearance. These visual enhancements help to clearly separate messages from surrounding page content while maintaining a clean and unobtrusive design. By using rounded edges and shadows, the web part improves visual hierarchy and readability, making important information, warnings, or notices more noticeable without overwhelming the overall layout of the SharePoint page.
+
+![Rounded corners and shadows available](./assets/ScreenShot2.png)
+
+To render the content of the webpart it leverages the RichText control from the SharePoint Framework (SPFx) control library. This allows authors to create richly formatted content using a familiar editing experience.
+
+![Rich text support](./assets/ScreenShot3.png)
 
 ## Used SharePoint Framework Version
 
@@ -22,7 +32,7 @@ that users coming from Confluence are familiar with and highlight text parts tha
 
 ## Prerequisites
 
-> Any special pre-requisites?
+None
 
 ## Solution
 
@@ -34,7 +44,7 @@ that users coming from Confluence are familiar with and highlight text parts tha
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.0     | April 03, 2026   | Initial release |
+| 1.0     | April 11, 2026   | Initial release |
 
 ## Disclaimer
 
@@ -55,10 +65,8 @@ that users coming from Confluence are familiar with and highlight text parts tha
 - For development use
   - `heft start`
 - To build the solution
-  - `heft build`
-  - `heft package-solution`
-
-> Include any additional steps as needed.
+  - `heft build --production`
+  - `heft package-solution --production`
 
 Other build commands can be listed using `heft --help`.
 

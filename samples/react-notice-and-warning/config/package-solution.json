@@ -1,25 +1,25 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "notice-and-warning-client-side-solution",
+    "name": "Notice and Warning Webpart",
     "id": "810ae2ba-bca3-4326-a5a6-fad74a8f4471",
-    "version": "0.0.0.2",
+    "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "Hagen Deike",
-      "websiteUrl": "https://www.greenbrain.de",
+      "name": "H.Deike",
+      "websiteUrl": "https://blog.greenbrain.de",
       "privacyUrl": "",
       "termsOfUseUrl": "",
       "mpnId": "Undefined-1.22.2"
     },
     "metadata": {
       "shortDescription": {
-        "default": "react-notice-and-warning description"
+        "default": "Communicate important messages clearly and consistently within SharePoint pages."
       },
       "longDescription": {
-        "default": "react-notice-and-warning description"
+        "default": "The Notice and Warning WebPart is designed to clearly and consistently communicate important messages directly within SharePoint pages."
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -27,10 +27,10 @@
     },
     "features": [
       {
-        "title": "notice-and-warning Feature",
+        "title": "Notice and Warning Feature",
         "description": "The feature that activates elements of the notice-and-warning solution.",
         "id": "53318162-5285-46fb-8e1e-813c91066adf",
-        "version": "0.0.0.2"
+        "version": "1.0.0.0"
       }
     ]
   },

@@ -19,8 +19,8 @@
     "groupId": "cf066440-0614-43d6-98ae-0b31cf14c7c3", // Text, media, and content
     "group": { "default": "Text, media, and content" },
     "title": { "default": "Notice and Warning" },
-    "description": { "default": "Notice and Warning description" },
-    "officeFabricIconFontName": "ExpandMenu",
+    "description": { "default": "The Notice and Warning WebPart is designed to clearly and consistently communicate important messages directly within SharePoint pages." },
+    "officeFabricIconFontName": "NotePinned",
     "properties": {
       "description": "notice-and-warning"
     }
