@@ -14,7 +14,7 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
   onTextChange: any;
 
   public render(): React.ReactElement<INoticeAndWarningProps> {
-    const { isDarkTheme, hasTeamsContext, isShadow } = this.props;
+    const { isDarkTheme, hasTeamsContext, isShadow, cornerRadius } = this.props;
 
     // map notification types to CSS class names (defined in the module stylesheet)
     const typeToClass: Record<string, string> = {
@@ -33,6 +33,10 @@ export default class NoticeAndWarning extends React.Component<INoticeAndWarningP
     const sectionStyle: React.CSSProperties = {} as React.CSSProperties;
     if (isShadow) {
       (sectionStyle as any).boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+    }
+
+    if (typeof cornerRadius === 'number') {
+      sectionStyle.borderRadius = `${cornerRadius}px`;
     }
 
     return (

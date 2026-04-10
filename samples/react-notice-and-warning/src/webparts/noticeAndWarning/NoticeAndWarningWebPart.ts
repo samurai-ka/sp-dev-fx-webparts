@@ -7,7 +7,8 @@ import {
   type IPropertyPaneConfiguration,
   PropertyPaneTextField,
   PropertyPaneDropdown,
-  PropertyPaneToggle
+  PropertyPaneToggle,
+  PropertyPaneSlider
 } from '@microsoft/sp-property-pane';
 import {
   PropertyPaneWebPartInformation
@@ -31,6 +32,7 @@ export interface INoticeAndWarningWebPartProps {
   isShadow?: boolean;
   notificationIconOverride?: boolean;
   notificationTitle: string;
+  cornerRadius?: number;
 }
 
 export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoticeAndWarningWebPartProps> {
@@ -59,6 +61,7 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
         notificationText: this.properties.notificationText,
         isDarkTheme: this._isDarkTheme,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
+        cornerRadius: this.properties.cornerRadius,
 
         displayMode: this.displayMode,
         updateProperty: (value: string) => { this.properties.notificationTitle = value; this.render(); },
@@ -192,6 +195,14 @@ export default class NoticeAndWarningWebPart extends BaseClientSideWebPart<INoti
                   onText: "Show",
                   offText: "Hidden"
                 }),
+                  PropertyPaneSlider('cornerRadius', {
+                    label: 'Corner radius',
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    value: this.properties.cornerRadius || 0,
+                    showValue: true
+                  }),
                 PropertyPaneWebPartInformation({
                   description: `This webpart was developed to mirror the same functionality found in other wikis. This makes it easier for users to transition to the new system, as they are already familiar with these features.`,
                   moreInfoLink: `https://pnp.github.io/sp-dev-fx-property-controls/`,

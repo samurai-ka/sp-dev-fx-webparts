@@ -9,6 +9,8 @@ export interface INoticeAndWarningProps {
   notificationTitle: string;
   isDarkTheme: boolean;
   hasTeamsContext: boolean;
+  /** corner radius in pixels for the root section */
+  cornerRadius?: number;
   
   displayMode: DisplayMode;
   updateProperty: (value: string) => void;
