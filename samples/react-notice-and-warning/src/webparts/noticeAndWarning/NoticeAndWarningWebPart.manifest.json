@@ -12,11 +12,11 @@
   // Components that allow authors to embed arbitrary script code should set this to true.
   // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
-  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportedHosts": ["SharePointWebPart"],
   "supportsThemeVariants": true,
 
   "preconfiguredEntries": [{
-    "groupId": "cf066440-0614-43d6-98ae-0b31cf14c7c3", // Text, media, and content
+    "groupId": "cf066440-0614-43d6-98ae-0b31cf14c7c3",
     "group": { "default": "Text, media, and content" },
     "title": { "default": "Notice and Warning" },
     "description": { "default": "The Notice and Warning WebPart is designed to clearly and consistently communicate important messages directly within SharePoint pages." },
