@@ -10,6 +10,9 @@
       ]
     }
   },
+  "containerEnv": {
+    "SPFX_SERVE_TENANT_DOMAIN": "${localEnv:SPFX_SERVE_TENANT_DOMAIN}"
+  },
   "forwardPorts": [
     4321,
     35729,
